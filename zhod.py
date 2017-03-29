@@ -63,17 +63,22 @@ class marshrut():
             print("{} minava marshruta za {}".format(car.whoami, ftime))
         return vreme
 
-audi1 = Car(7.5, 'A6 Okolovrystno', 'diesel')
-audi2 = Car(11, 'A6 Center', 'diesel')
+def main():
 
-# prez centera za 17km
-prez_center = marshrut(17, speed = 35)
-prez_center.addCar(audi2)
-prez_center.razhod()
-prez_center.vreme()
+    audi1 = Car(7.5, 'A6 Okolovrystno', 'diesel')
+    audi2 = Car(11, 'A6 Center', 'diesel')
 
-# ringroad za 28km
-ringroad = marshrut(27, speed = 70)
-ringroad.addCar(audi1)
-ringroad.razhod()
-ringroad.vreme()
+    # prez centera za 17km
+    prez_center = marshrut(17, speed=35)
+    prez_center.addCar(audi2)
+    prez_center.razhod()
+    prez_center.vreme()
+
+    # ringroad za 28km
+    ringroad = marshrut(27, speed=70)
+    ringroad.addCar(audi1)
+    ringroad.razhod()
+    ringroad.vreme()
+
+if __name__ == '__main__':
+    main()
