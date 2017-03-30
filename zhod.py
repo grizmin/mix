@@ -2,7 +2,7 @@ import math
 
 class Car():
     valuta = 'leva'
-    fuelType = {'petrol': 2.08,'diesel': 1.75}
+    fuelType = {'petrol': 2.08,'diesel': 1.75, 'gas': 1.06}
 
     def __init__(self, name=None, razhod=None, **kwargs):
         self.fuel_type = kwargs.get('fuel_type', 'diesel')
@@ -31,7 +31,7 @@ class Car():
         """
         return {'name': self.name, 'razhod': self.literkm, 'fuelType': self.fuel_type}
 
-class marshrut():
+class Marshrut():
     def __init__(self, km, **kwargs):
         """
         :param km: (int) kilometers length
@@ -41,8 +41,16 @@ class marshrut():
         self.averagespeed = kwargs.get('speed', 50)
         self.km = km
 
-    def addCar(self, car: object) -> object:
-        self.cars.append(car)
+    @property
+    def cars(self):
+        return self._cars
+
+    @cars.setter
+    def cars(self, car: object) -> object:
+        if type(car) is list:
+            self._cars = {k:(k.literkm/100) * self.km * k.fuelPrice for k in car}
+        else:
+            self._cars[car] = (car.literkm/100) * self.km * car.fuelPrice
 
     def getCars(self):
         """
@@ -50,36 +58,36 @@ class marshrut():
         """
         print('\n'.join('{}: {}'.format(k, v.whoami['name']) for k, v in enumerate(self.cars)))
 
-    def razhod(self):
-        """
-        :param km: (int) Kilometers
-        :return: (float) price for the kilometers passed
-        """
-        for car in self.cars:
-            cena = (car.literkm/100) * self.km * car.fuelPrice
-        return cena
-
     def stat(self):
+        print('*' * 10, type(self).__name__, self.km, '*' * 10)
         for car in self.cars:
             t = (self.km / self.averagespeed)
             ftime = "{:.0f}h{:.0f}m".format(t, math.modf(t)[0] * 60)
             print("{} minava {}km marshrut za {} i struva {:.2f} leva"\
-                  .format(car.whoami['name'], self.km, ftime, self.razhod()))
-        return t
+                  .format(car.whoami['name'], self.km, ftime, self.cars[car]))
 
 def main():
 
-    audi1 = Car('A6 Okolovrystno', razhod=7.2, fuel_type='diesel')
-    audi2 = Car('A6 Center', 12, fuel_type='diesel')
+    audi1 = Car('A6 izvyn-gradsko', razhod=7.2, fuel_type='diesel')
+    audi2 = Car('A6 gradsko', 12, fuel_type='diesel')
+    subaru12 = Car('Subaru Gas Mitaka gradsko', 12, fuel_type='gas')
+    subaru9 = Car('Subaru Gas Mitaka izvyn-gradsko', 9, fuel_type='gas')
+
+    print('Fuel prices in leva: {}'.format(Car.fuelType))
 
     # prez centera za 16km
-    prez_center = marshrut(16, speed=32)
-    prez_center.addCar(audi2)
+    prez_center = Marshrut(16, speed=32)
+    prez_center.cars = [audi2, subaru12]
+    prez_center.getCars()
     prez_center.stat()
 
+    print('\n')
+
     # ringroad za 36km
-    ringroad = marshrut(36, speed=77)
-    ringroad.addCar(audi1)
+    ringroad = Marshrut(36, speed=77)
+    ringroad.cars = audi1
+    ringroad.cars = subaru9
+    ringroad.getCars()
     ringroad.stat()
 
 if __name__ == '__main__':
