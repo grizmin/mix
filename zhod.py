@@ -2,7 +2,7 @@ import math
 
 class Car():
     valuta = 'leva'
-    fuelType = {'petrol': 2.08,'diesel': 1.75}
+    fuelType = {'petrol': 2.08,'diesel': 1.86}
 
     def __init__(self, literkm, name, fuel_type):
         self.fuel_type = fuel_type
@@ -69,13 +69,13 @@ def main():
     audi2 = Car(11, 'A6 Center', 'diesel')
 
     # prez centera za 17km
-    prez_center = marshrut(17, speed=35)
+    prez_center = marshrut(16, speed=32)
     prez_center.addCar(audi2)
     prez_center.razhod()
     prez_center.vreme()
 
     # ringroad za 28km
-    ringroad = marshrut(27, speed=70)
+    ringroad = marshrut(36, speed=77)
     ringroad.addCar(audi1)
     ringroad.razhod()
     ringroad.vreme()
