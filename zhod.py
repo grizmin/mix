@@ -37,7 +37,9 @@ class Marshrut():
         :param km: (int) kilometers length
         :param kwargs: (int) speed, list[(object)] cars
         """
-        self.cars = kwargs.get('cars', [])
+        self._cars = {}
+        if kwargs.get('cars'):
+            self.cars = kwargs.get('cars')
         self.averagespeed = kwargs.get('speed', 50)
         self.km = km
 
@@ -46,11 +48,14 @@ class Marshrut():
         return self._cars
 
     @cars.setter
-    def cars(self, car: object) -> object:
+    def cars(self, car):
         if type(car) is list:
-            self._cars = {k:(k.literkm/100) * self.km * k.fuelPrice for k in car}
-        else:
+            if isinstance(car[0], Car) and len(car):
+                self._cars = {k:(k.literkm/100) * self.km * k.fuelPrice for k in car}
+        elif isinstance(car, Car):
             self._cars[car] = (car.literkm/100) * self.km * car.fuelPrice
+        else:
+            print(car, ': Unknown format. cars can be only instance of Car object or list of Car objects')
 
     def getCars(self):
         """
@@ -81,7 +86,7 @@ def main():
     prez_center.getCars()
     prez_center.stat()
 
-    print('\n')
+    print('')
 
     # ringroad za 36km
     ringroad = Marshrut(36, speed=77)
