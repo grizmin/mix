@@ -2,7 +2,7 @@ import math
 
 class Car():
     valuta = 'leva'
-    fuelType = {'petrol': 2.08,'diesel': 1.86}
+    fuelType = {'petrol': 2.08,'diesel': 1.75}
 
     def __init__(self, literkm, name, fuel_type):
         self.fuel_type = fuel_type
@@ -53,32 +53,30 @@ class marshrut():
         """
         for car in self.cars:
             cena = (car.literkm/100) * self.km * car.fuelPrice
-            print("{} struva {:.3}".format(car.whoami, cena), Car.valuta)
         return cena
 
-    def vreme(self):
+    def stat(self):
         for car in self.cars:
-            vreme = (self.km / self.averagespeed)
-            ftime = "{:.0f}h{:.0f}m".format(vreme, math.modf(vreme)[0] * 60)
-            print("{} minava marshruta za {}".format(car.whoami, ftime))
-        return vreme
+            t = (self.km / self.averagespeed)
+            ftime = "{:.0f}h{:.0f}m".format(t, math.modf(t)[0] * 60)
+            print("{} minava {}km marshrut za {} i struva {:.2f} leva"\
+                  .format(car.whoami, self.km, ftime, self.razhod()))
+        return t
 
 def main():
 
-    audi1 = Car(7.5, 'A6 Okolovrystno', 'diesel')
-    audi2 = Car(11, 'A6 Center', 'diesel')
+    audi1 = Car(7.2, 'A6 Okolovrystno', 'diesel')
+    audi2 = Car(12, 'A6 Center', 'diesel')
 
-    # prez centera za 17km
+    # prez centera za 16km
     prez_center = marshrut(16, speed=32)
     prez_center.addCar(audi2)
-    prez_center.razhod()
-    prez_center.vreme()
+    prez_center.stat()
 
-    # ringroad za 28km
+    # ringroad za 36km
     ringroad = marshrut(36, speed=77)
     ringroad.addCar(audi1)
-    ringroad.razhod()
-    ringroad.vreme()
+    ringroad.stat()
 
 if __name__ == '__main__':
     main()
